@@ -7,19 +7,19 @@ function form_overwrite_form_alter(&$form, \Drupal\Core\Form\FormStateInterface 
   /* Identify the "Add term" form for the vocabulary project */
   if ($form_id=='taxonomy_term_vocab_project_form') {
     /* Make the "Completion Months" field visible only when "Project type" is "Fixed" */
-    $form['field_completion_months']['#states'] = array( 
+    $form['field_completion_months']['#states'] = array(
       'visible' => array(
         ':input[name="field_project_type"]' => array('value' => 0),
       ),
     );
     /* Make the "Total Cost" field visible only when "Project type" "Fixed" is selected */
-    $form['field_total_cost']['#states'] = array( 
+    $form['field_total_cost']['#states'] = array(
       'visible' => array(
         ':input[name="field_project_type"]' => array('value' => 0),
       ),
     );
     /* Make the "Per Hour Rate" field visible only when "Project type" is "Hourly" */
-    $form['field_per_hour_rate']['#states'] = array( 
+    $form['field_per_hour_rate']['#states'] = array(
       'visible' => array(
         ':input[name="field_project_type"]' => array('value' => 1),
       ),
@@ -59,14 +59,19 @@ function form_overwrite_form_alter(&$form, \Drupal\Core\Form\FormStateInterface 
     // $first = array_shift($form['#submit']);
     // array_unshift($form['#submit'], $first, 'date_value_submit');
   }
-  if ($form['#id'] == "taxonomy-term-vocab-project-form") {
+  // \Drupal::logger('my_module')->notice($form['#id']);
+
+  /* Condition is generalised for variable form_id having this form_id as substring*/
+  if (strpos( $form['#id'], "taxonomy-term-vocab-project-form" ) !== false) {
     // dpm($form);
     // dpm($form_state);
+    // \Drupal::logger('my_module')->notice("hello");
     $form['#validate'][] = 'project_term_validate';
   }
 }
 
-function project_term_validate(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+function project_term_validate(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+  // \Drupal::logger('my_module')->notice("hello_ty");
   // dpm($form_state);
   // dpm($form);
   // dpm($form_state->getUserInput());
